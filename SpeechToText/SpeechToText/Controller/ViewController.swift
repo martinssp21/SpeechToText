@@ -22,6 +22,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.requestSpeechAuthorization()
     }
     
     private func recordAndRecognizeSpeech() -> Swift.Void{
@@ -86,6 +87,29 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
         
     }
     
+    private func requestSpeechAuthorization() {
+        SFSpeechRecognizer.requestAuthorization({authStatus in
+            OperationQueue.main.addOperation {
+                switch authStatus {
+                case .authorized:
+                    self.startButton.isEnabled = true
+                case .notDetermined:
+                    self.startButton.isEnabled = false
+                    self.detectedTextLabel.text = "Reconhecimento de voz desabilitado!"
+                case .denied:
+                    self.startButton.isEnabled = false
+                    self.detectedTextLabel.text = "Reconhecimento bloqueado pelo usuário. :("
+                case .restricted:
+                    self.startButton.isEnabled = false
+                    self.detectedTextLabel.text = "Reconhecimento de voz restrito neste dispositivo."
+                @unknown default:
+                    self.startButton.isEnabled = false
+                    self.detectedTextLabel.text = "Erro desconhecido"
+                }
+            }
+            
+        })
+    }
     @IBAction func startButtonTapped(_ sender: Any) {
         self.recordAndRecognizeSpeech()
     }
