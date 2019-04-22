@@ -48,12 +48,44 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
             if let sResult = result {
                 let bestString = sResult.bestTranscription.formattedString
                 self.detectedTextLabel.text = bestString
+                
+                var lastString = String()
+                for segment in sResult.bestTranscription.segments{
+                    let indexTo = bestString.index(bestString.startIndex, offsetBy: segment.substringRange.location)
+                    lastString = bestString.substring(from: indexTo)
+                }
+                self.checkForColorSaid(resulString: lastString)
+                
             } else if let errorPrint = error {
                 print(errorPrint)
             }
         })
     }
 
+    func checkForColorSaid(resulString: String){
+        switch resulString {
+        case "vermelho":
+            self.colorView.backgroundColor = UIColor.red
+        case "azul":
+            self.colorView.backgroundColor = UIColor.blue
+        case "verde":
+            self.colorView.backgroundColor = UIColor.green
+        case "amarelo":
+            self.colorView.backgroundColor = UIColor.yellow
+        case "laranja":
+            self.colorView.backgroundColor = UIColor.orange
+        case "roxo":
+            self.colorView.backgroundColor = UIColor.purple
+        case "branco":
+            self.colorView.backgroundColor = UIColor.white
+        case "preto":
+            self.colorView.backgroundColor = UIColor.black
+        default:
+            self.colorView.backgroundColor = UIColor.gray
+        }
+        
+    }
+    
     @IBAction func startButtonTapped(_ sender: Any) {
         self.recordAndRecognizeSpeech()
     }
