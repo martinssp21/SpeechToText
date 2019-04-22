@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="CSX-g2-SSm">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="j9G-Cg-B2u">
+            <objects>
+                <viewController id="CSX-g2-SSm" customClass="ViewController" customModule="SpeechToText" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="6nZ-Yq-tYo">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Clique no botão para iniciar o reconhecimento de voz" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="grC-xd-bh4">
+                                <rect key="frame" x="0.0" y="20" width="375" height="43"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nl6-xf-xCx">
+                                <rect key="frame" x="32" y="85" width="311" height="76"/>
+                                <color key="backgroundColor" red="0.23137254900000001" green="0.28627450980000002" blue="0.93333333330000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="startButtonTapped:" destination="CSX-g2-SSm" eventType="touchUpInside" id="bTf-Fb-SPa"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Diga o nome da cor" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xuS-84-qFn">
+                                <rect key="frame" x="0.0" y="471" width="375" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="vhf-fQ-1Xf"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2mD-bl-HrV">
+                                <rect key="frame" x="32" y="517" width="311" height="130"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="130" id="lRy-JK-qWG"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HfP-mK-mTu">
+                                <rect key="frame" x="0.0" y="187" width="375" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="NTb-yF-ng1"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="2mD-bl-HrV" firstAttribute="leading" secondItem="QWW-TB-0YE" secondAttribute="leading" constant="32" id="5Nj-KV-Nxo"/>
+                            <constraint firstItem="2mD-bl-HrV" firstAttribute="top" secondItem="xuS-84-qFn" secondAttribute="bottom" constant="16" id="AVf-mS-cgx"/>
+                            <constraint firstItem="xuS-84-qFn" firstAttribute="trailing" secondItem="QWW-TB-0YE" secondAttribute="trailing" id="DrS-UL-ljw"/>
+                            <constraint firstItem="QWW-TB-0YE" firstAttribute="trailing" secondItem="2mD-bl-HrV" secondAttribute="trailing" constant="32" id="F3m-4V-cdW"/>
+                            <constraint firstItem="xuS-84-qFn" firstAttribute="top" secondItem="HfP-mK-mTu" secondAttribute="bottom" constant="84" id="HMb-Mf-Oji"/>
+                            <constraint firstItem="QWW-TB-0YE" firstAttribute="trailing" secondItem="Nl6-xf-xCx" secondAttribute="trailing" constant="32" id="NVV-aX-fIS"/>
+                            <constraint firstItem="Nl6-xf-xCx" firstAttribute="top" secondItem="grC-xd-bh4" secondAttribute="bottom" constant="22" id="OUX-mA-9uo"/>
+                            <constraint firstItem="HfP-mK-mTu" firstAttribute="top" secondItem="Nl6-xf-xCx" secondAttribute="bottom" constant="26" id="ahR-cw-o3s"/>
+                            <constraint firstItem="HfP-mK-mTu" firstAttribute="trailing" secondItem="QWW-TB-0YE" secondAttribute="trailing" id="bAM-Dr-uw8"/>
+                            <constraint firstItem="HfP-mK-mTu" firstAttribute="leading" secondItem="QWW-TB-0YE" secondAttribute="leading" id="dt1-pP-lUy"/>
+                            <constraint firstItem="xuS-84-qFn" firstAttribute="leading" secondItem="QWW-TB-0YE" secondAttribute="leading" id="f5x-e5-3kE"/>
+                            <constraint firstItem="grC-xd-bh4" firstAttribute="top" secondItem="QWW-TB-0YE" secondAttribute="top" id="lLQ-vh-dKv"/>
+                            <constraint firstItem="grC-xd-bh4" firstAttribute="trailing" secondItem="QWW-TB-0YE" secondAttribute="trailing" id="loL-cR-7nM"/>
+                            <constraint firstItem="QWW-TB-0YE" firstAttribute="bottom" secondItem="2mD-bl-HrV" secondAttribute="bottom" constant="20" id="rkF-nI-jYv"/>
+                            <constraint firstItem="Nl6-xf-xCx" firstAttribute="leading" secondItem="QWW-TB-0YE" secondAttribute="leading" constant="32" id="wKc-hu-lO1"/>
+                            <constraint firstItem="grC-xd-bh4" firstAttribute="leading" secondItem="QWW-TB-0YE" secondAttribute="leading" id="zlk-kY-pD9"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="QWW-TB-0YE"/>
+                    </view>
+                    <connections>
+                        <outlet property="colorView" destination="2mD-bl-HrV" id="QZO-NQ-h5q"/>
+                        <outlet property="detectedTextLabel" destination="HfP-mK-mTu" id="9n4-Cl-Cf6"/>
+                        <outlet property="startButton" destination="Nl6-xf-xCx" id="KU2-9A-cgo"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="j47-wp-hcR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-268" y="-144.3778110944528"/>
+        </scene>
+    </scenes>
+</document>
