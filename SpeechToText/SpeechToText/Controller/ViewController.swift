@@ -7,29 +7,29 @@
 //
 
 import UIKit
-import  Speech
+import Speech
 
 class ViewController: UIViewController, SFSpeechRecognizerDelegate {
-    @IBOutlet private weak var detectedTextLabel: UILabel!
-    @IBOutlet private weak var startButton: UIButton!
-    @IBOutlet private weak var colorView: UIView!
+    @IBOutlet private weak var detectedTextLabel: UILabel?
+    @IBOutlet private weak var startButton: UIButton?
+    @IBOutlet private weak var colorView: UIView?
     
-    let audioEngine = AVAudioEngine()
-    let speechRecognizer = SFSpeechRecognizer(locale: Locale.init(identifier: "pt_BR"))
-    let request = SFSpeechAudioBufferRecognitionRequest()
-    var recognitionTask : SFSpeechRecognitionTask?
-    
+    private let audioEngine = AVAudioEngine()
+    private let speechRecognizer = SFSpeechRecognizer(locale: Locale.init(identifier: "pt_BR"))
+    private let request = SFSpeechAudioBufferRecognitionRequest()
+    private var recognitionTask : SFSpeechRecognitionTask?
+    private var isRecording = Bool(false)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.requestSpeechAuthorization()
+        requestSpeechAuthorization()
     }
     
     private func recordAndRecognizeSpeech() -> Swift.Void{
         let node = audioEngine.inputNode
         let recordiongFormat = node.outputFormat(forBus: 0)
-        node.installTap(onBus: 0, bufferSize: 1024, format: recordiongFormat) { buffer, _ in
-            self.request.append(buffer)
+        node.installTap(onBus: 0, bufferSize: 2048, format: recordiongFormat) { [weak self] buffer, _ in
+            self?.request.append(buffer)
         }
         audioEngine.prepare()
         do{
@@ -41,21 +41,22 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
         guard let myRecongnizer = SFSpeechRecognizer() else {
             return
         }
-        if !myRecongnizer.isAvailable{
+        
+        if !myRecongnizer.isAvailable {
             return
         }
         
-        recognitionTask = speechRecognizer?.recognitionTask(with: request, resultHandler: { result, error in
+        recognitionTask = speechRecognizer?.recognitionTask(with: request, resultHandler: { [weak self] result, error in
             if let sResult = result {
                 let bestString = sResult.bestTranscription.formattedString
-                self.detectedTextLabel.text = bestString
+                self?.detectedTextLabel?.text = bestString
                 
                 var lastString = String()
-                for segment in sResult.bestTranscription.segments{
+                for segment in sResult.bestTranscription.segments {
                     let indexTo = bestString.index(bestString.startIndex, offsetBy: segment.substringRange.location)
                     lastString = bestString.substring(from: indexTo)
                 }
-                self.checkForColorSaid(resulString: lastString)
+                self?.checkForColorSaid(resulString: lastString)
                 
             } else if let errorPrint = error {
                 print(errorPrint)
@@ -66,23 +67,25 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     func checkForColorSaid(resulString: String){
         switch resulString {
         case "vermelho":
-            self.colorView.backgroundColor = UIColor.red
+            colorView?.backgroundColor = UIColor.red
         case "azul":
-            self.colorView.backgroundColor = UIColor.blue
+            colorView?.backgroundColor = UIColor.blue
         case "verde":
-            self.colorView.backgroundColor = UIColor.green
+            colorView?.backgroundColor = UIColor.green
         case "amarelo":
-            self.colorView.backgroundColor = UIColor.yellow
+            colorView?.backgroundColor = UIColor.yellow
         case "laranja":
-            self.colorView.backgroundColor = UIColor.orange
+            colorView?.backgroundColor = UIColor.orange
         case "roxo":
-            self.colorView.backgroundColor = UIColor.purple
+            colorView?.backgroundColor = UIColor.purple
         case "branco":
-            self.colorView.backgroundColor = UIColor.white
+            colorView?.backgroundColor = UIColor.white
         case "preto":
-            self.colorView.backgroundColor = UIColor.black
+            colorView?.backgroundColor = UIColor.black
+        case "limpar":
+            self.detectedTextLabel?.text = ""
         default:
-            self.colorView.backgroundColor = UIColor.gray
+            colorView?.backgroundColor = UIColor.gray
         }
         
     }
@@ -92,26 +95,40 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
             OperationQueue.main.addOperation {
                 switch authStatus {
                 case .authorized:
-                    self.startButton.isEnabled = true
+                    self.startButton?.isEnabled = true
                 case .notDetermined:
-                    self.startButton.isEnabled = false
-                    self.detectedTextLabel.text = "Reconhecimento de voz desabilitado!"
+                    self.startButton?.isEnabled = false
+                    self.detectedTextLabel?.text = "Reconhecimento de voz desabilitado!"
                 case .denied:
-                    self.startButton.isEnabled = false
-                    self.detectedTextLabel.text = "Reconhecimento bloqueado pelo usuário. :("
+                    self.startButton?.isEnabled = false
+                    self.detectedTextLabel?.text = "Reconhecimento bloqueado pelo usuário. :("
                 case .restricted:
-                    self.startButton.isEnabled = false
-                    self.detectedTextLabel.text = "Reconhecimento de voz restrito neste dispositivo."
+                    self.startButton?.isEnabled = false
+                    self.detectedTextLabel?.text = "Reconhecimento de voz restrito neste dispositivo."
                 @unknown default:
-                    self.startButton.isEnabled = false
-                    self.detectedTextLabel.text = "Erro desconhecido"
+                    self.startButton?.isEnabled = false
+                    self.detectedTextLabel?.text = "Erro desconhecido"
                 }
             }
             
         })
     }
-    @IBAction func startButtonTapped(_ sender: Any) {
-        self.recordAndRecognizeSpeech()
-    }
     
+    @IBAction func startButtonTapped(_ sender: Any) {
+        if isRecording == true {
+            print("--> Stop Recording.")
+            request.endAudio()  // Mark end of recording
+            audioEngine.stop()
+            let node = audioEngine.inputNode
+            node.removeTap(onBus: 0)
+            recognitionTask?.cancel()
+            isRecording = false
+            startButton?.isEnabled = false
+        } else {
+            print("--> Start Recording.")
+            recordAndRecognizeSpeech()
+            isRecording = true
+            startButton?.isEnabled = true
+        }
+    }
 }
